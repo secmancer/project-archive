@@ -1,0 +1,83 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      String             @id
+  stories UserStoryMapping[] @relation("UserStoryMap")
+  nodes   StoryNode[]        @relation("UserNodes")
+
+  Story Story[] @relation("UserStories")
+}
+
+enum Theme {
+  HORROR
+  COMEDY
+  ACTION
+  MYSTERY
+  DRAMA
+  ROMANCE
+  FANTASY
+  SCIFI
+  ADVENTURE
+}
+
+model Story {
+  id           Int                @id @default(autoincrement())
+  title        String
+  theme        Theme
+  root_node    StoryNode?         @relation("StoryRootNode", fields: [root_node_id], references: [id])
+  root_node_id Int?
+  author       User?              @relation("UserStories", fields: [author_id], references: [id])
+  author_id    String?
+  most_recent  DateTime           @default(now())
+  nodes        StoryNode[]        @relation("StoryNodes")
+  users        UserStoryMapping[] @relation("StoryUserMap")
+  edges        Edge[]             @relation("StoryEdges")
+}
+
+model StoryNode {
+  id             Int         @id @default(autoincrement())
+  story          Story?      @relation("StoryNodes", fields: [story_id], references: [id])
+  story_id       Int?
+  writer         User?       @relation("UserNodes", fields: [writer_id], references: [id])
+  writer_id      String?
+  title          String
+  body           String
+  parent         StoryNode?  @relation("ParentNode", fields: [parent_id], references: [id])
+  parent_id      Int?
+  is_chosen_path Boolean
+  upvotes        Int         @default(0)
+  created_date   DateTime    @default(now())
+  children       StoryNode[] @relation("ParentNode")
+  outgoing_edges Edge[]      @relation("SourceNode")
+  incoming_edges Edge[]      @relation("TargetNode")
+  reported       Boolean     @default(false)
+
+  Story Story[] @relation("StoryRootNode")
+}
+
+model Edge {
+  id        Int       @id @default(autoincrement())
+  source    StoryNode @relation("SourceNode", fields: [source_id], references: [id])
+  source_id Int
+  target    StoryNode @relation("TargetNode", fields: [target_id], references: [id])
+  target_id Int
+  story     Story     @relation("StoryEdges", fields: [story_id], references: [id])
+  story_id  Int
+}
+
+model UserStoryMapping {
+  id       Int     @id @default(autoincrement())
+  user     User?   @relation("UserStoryMap", fields: [user_id], references: [id])
+  user_id  String?
+  story    Story   @relation("StoryUserMap", fields: [story_id], references: [id])
+  story_id Int
+  favorite Boolean @default(false)
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "owf",
+  "version": "1.0",
+
+  "name": "Oh What Fun!",
+  "description": "Adds sleds for carrying yourself and whatever vital gear for your snowy adventures across Overworld! Built for Modfest 1.17",
+  "authors": [
+    "quantamancer"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": "https://github.com/quantamancer/OhWhatFun"
+  },
+
+  "license": "MIT",
+  "icon": "assets/owf/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "io.github.quantamancer.owf.OhWhatFunItIs"
+    ]
+  },
+  "mixins": [
+    "owf.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

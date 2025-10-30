@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "S S",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:dark_oak_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "owf:dark_oak_sled",
+    "count": 1
+  }
+}
+

@@ -1,3 +1,3 @@
-# minecraft-archive
+# project-archive
 
-Collection of Minecraft related projects that I have developed
+Collection of programming projects I have done. They are either stuff I have done in my personal time or school projects.
